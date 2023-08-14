@@ -1,0 +1,28 @@
+FROM maven:3.8.3-openjdk-17-slim AS build
+
+# executes build.sh
+RUN mkdir -p /usr/src/app
+
+# sets the working directory for any RUN, CMD, ENTRYPOINT, COPY and ADD instructions that follow it in the Dockerfile
+WORKDIR /usr/src/app
+
+# copies the source code from the host into the container
+COPY . /usr/src/app
+
+# executes the command
+RUN mvn clean package -DskipTests
+
+# sets the base image for subsequent instructions
+FROM openjdk:17-slim
+
+# sets the working directory for any RUN, CMD, ENTRYPOINT, COPY and ADD instructions that follow it in the Dockerfile
+WORKDIR /usr/src/app
+
+# copies the source code from the host into the container
+COPY --from=build /usr/src/app/target/*.jar /usr/src/app.jar
+
+# sets the port on which the container listens
+EXPOSE 8080
+
+# executes the command
+ENTRYPOINT ["java","-jar","/usr/src/app.jar"]
