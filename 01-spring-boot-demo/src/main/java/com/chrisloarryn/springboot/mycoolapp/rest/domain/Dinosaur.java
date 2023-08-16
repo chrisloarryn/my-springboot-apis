@@ -5,8 +5,7 @@ public class Dinosaur {
     private String link;
     private String name;
 
-    public Dinosaur() {
-    }
+    public Dinosaur() { }
 
     public Dinosaur(String link, String name) {
         this.link = link;

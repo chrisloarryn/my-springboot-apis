@@ -17,14 +17,10 @@ public class ApiClientService {
     }
 
     public Dinosaur[] fetchDataFromExternalAPI() {
-
         ApiResponse response = restTemplate.getForObject(API_URL, ApiResponse.class);
-
         if (response == null) {
-            // return an empty array
             return new Dinosaur[0];
         }
-
         return response.getData();
     }
 }
